@@ -11,6 +11,6 @@ func main() {
 	//    minute
 	// 6. setup a timer to send a heartbeat every minute
 
-	config := new(configuration)
+	config := new(Configuration)
 	config.loadConfiguration("config.json")
 }
