@@ -52,7 +52,7 @@ func parseConfiguration(c *Configuration, contents []byte) error {
 }
 
 // LoadConfiguration loads the configuration from the file system
-func (c *Configuration) loadConfiguration(fileName string) error {
+func (c *Configuration) LoadConfiguration(fileName string) error {
 
 	// read the configuration file
 	contents, err := readConfiguration(fileName)

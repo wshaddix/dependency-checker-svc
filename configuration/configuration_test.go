@@ -16,7 +16,7 @@ func TestLoadingConfiguration(t *testing.T) {
 	t.Logf("\tWhen checking \"%s\" for the configuration", fileName)
 
 	c := new(Configuration)
-	err := c.loadConfiguration(fileName)
+	err := c.LoadConfiguration(fileName)
 
 	if err != nil {
 		t.Fatal("\t\t", ballotX, "Should be able to load the configuration: ", err)
@@ -33,7 +33,7 @@ func TestGettingConfiguration(t *testing.T) {
 	t.Logf("\tWhen checking \"%s\" for the configuration", fileName)
 
 	c := new(Configuration)
-	err := c.loadConfiguration(fileName)
+	err := c.LoadConfiguration(fileName)
 
 	if err != nil {
 		t.Fatal("\t\t", ballotX, "Should be able to load the configuration: ", err)
@@ -72,7 +72,7 @@ func TestMalformedConfiguration(t *testing.T) {
 	t.Logf("\tWhen checking \"%s\" for the configuration", fileName)
 
 	c := new(Configuration)
-	err := c.loadConfiguration(fileName)
+	err := c.LoadConfiguration(fileName)
 
 	if err == nil {
 		t.Fatal("\t\t", ballotX, "Should have returned an error")
@@ -95,7 +95,7 @@ func TestMissingConfiguration(t *testing.T) {
 	t.Logf("\tWhen checking \"%s\" for the configuration", fileName)
 
 	c := new(Configuration)
-	err := c.loadConfiguration(fileName)
+	err := c.LoadConfiguration(fileName)
 
 	if err == nil {
 		t.Fatal("\t\t", ballotX, "Should have returned an error")
