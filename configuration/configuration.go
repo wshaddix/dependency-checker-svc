@@ -1,6 +1,8 @@
 package configuration
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"io/ioutil"
@@ -8,12 +10,14 @@ import (
 	"runtime"
 )
 
-// Configuration is a type that stores runtime configuration information for the
+// ConfigSettings is a type that stores runtime configuration information for the
 // dependency checker service
-type Configuration struct {
+type ConfigSettings struct {
 	ID       string `json:"id"`
 	Os       string
 	HostName string
+	MD5Hash  string
+	APIURL   string
 }
 
 var (
@@ -36,7 +40,7 @@ func readConfiguration(fileName string) ([]byte, error) {
 	return contents, err
 }
 
-func parseConfiguration(c *Configuration, contents []byte) error {
+func parseConfiguration(c *ConfigSettings, contents []byte) error {
 
 	// parse the contents into a JSON string
 	err := json.Unmarshal(contents, c)
@@ -45,14 +49,25 @@ func parseConfiguration(c *Configuration, contents []byte) error {
 		return ErrParsingConfigFile
 	}
 
-	// we need to set the Os and Hostname fields
+	// we need to set the Os, Hostname, MD5Hash and optionally the api url fields
 	c.Os = runtime.GOOS
 	c.HostName, _ = os.Hostname()
+	c.MD5Hash = hashConfiguration(contents)
+
+	if len(c.APIURL) == 0 {
+		c.APIURL = "api.dependencychecker.com"
+	}
 	return err
 }
 
+func hashConfiguration(contents []byte) string {
+	hasher := md5.New()
+	hasher.Write(contents)
+	return hex.EncodeToString(hasher.Sum(nil))
+}
+
 // LoadConfiguration loads the configuration from the file system
-func (c *Configuration) LoadConfiguration(fileName string) error {
+func (c *ConfigSettings) LoadConfiguration(fileName string) error {
 
 	// read the configuration file
 	contents, err := readConfiguration(fileName)

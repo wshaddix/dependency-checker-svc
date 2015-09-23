@@ -15,7 +15,7 @@ func TestLoadingConfiguration(t *testing.T) {
 
 	t.Logf("\tWhen checking \"%s\" for the configuration", fileName)
 
-	c := new(Configuration)
+	c := new(ConfigSettings)
 	err := c.LoadConfiguration(fileName)
 
 	if err != nil {
@@ -32,7 +32,7 @@ func TestGettingConfiguration(t *testing.T) {
 
 	t.Logf("\tWhen checking \"%s\" for the configuration", fileName)
 
-	c := new(Configuration)
+	c := new(ConfigSettings)
 	err := c.LoadConfiguration(fileName)
 
 	if err != nil {
@@ -61,6 +61,20 @@ func TestGettingConfiguration(t *testing.T) {
 		} else {
 			t.Log("\t\t", checkMark, "The Hostname field is unmarshaled correctly: ", c.HostName)
 		}
+
+		// verify that the MD5Hash field is set
+		if len(c.MD5Hash) == 0 {
+			t.Fatalf("\t\t%s The MD5Hash is not set:%s", ballotX, c.MD5Hash)
+		} else {
+			t.Log("\t\t", checkMark, "The MD5Hash field is set: ", c.MD5Hash)
+		}
+
+		// verify that the APIURL field is set
+		if len(c.APIURL) == 0 {
+			t.Fatalf("\t\t%s The APIURL is not set:%s", ballotX, c.APIURL)
+		} else {
+			t.Log("\t\t", checkMark, "The APIURL field is set: ", c.APIURL)
+		}
 	}
 }
 
@@ -71,7 +85,7 @@ func TestMalformedConfiguration(t *testing.T) {
 
 	t.Logf("\tWhen checking \"%s\" for the configuration", fileName)
 
-	c := new(Configuration)
+	c := new(ConfigSettings)
 	err := c.LoadConfiguration(fileName)
 
 	if err == nil {
@@ -94,7 +108,7 @@ func TestMissingConfiguration(t *testing.T) {
 
 	t.Logf("\tWhen checking \"%s\" for the configuration", fileName)
 
-	c := new(Configuration)
+	c := new(ConfigSettings)
 	err := c.LoadConfiguration(fileName)
 
 	if err == nil {
